@@ -26,6 +26,7 @@ CREATE TABLE chat_messages (
     user_id BIGINT,
     agent_id BIGINT,
     message TEXT NOT NULL,
+    sender_type VARCHAR(10) NOT NULL,
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (agent_id) REFERENCES agents(id) ON DELETE CASCADE,
