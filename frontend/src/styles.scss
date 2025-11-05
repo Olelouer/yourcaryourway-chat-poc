@@ -1,1 +1,202 @@
-/* You can add global styles to this file, and also import other style files */
+/* Fichier: src/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- Login Simulator --- */
+.login-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.login-panel {
+    flex: 1;
+}
+
+.login-panel h3 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.login-panel button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.login-panel button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Agent Dashboard --- */
+.dashboard-container {
+    display: flex;
+    height: 80vh;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.user-list-panel {
+    flex: 0 0 250px;
+    border-right: 1px solid #eee;
+    background: #fafafa;
+    overflow-y: auto;
+}
+
+.user-list-panel h3 {
+    padding: 15px;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.user-list-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-list-panel li {
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.user-list-panel li:hover {
+    background: #f0f0f0;
+}
+
+.user-list-panel li.active {
+    background: #007bff;
+    color: white;
+    font-weight: 500;
+}
+
+.chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background: #f9f9f9;
+}
+
+.chat-placeholder {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    color: #999;
+}
+
+/* --- Client Chat (partagé) --- */
+.chat-container {
+    max-width: 700px;
+    height: 80vh;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.message-list {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 70%;
+    line-height: 1.5;
+}
+
+.message strong {
+    display: block;
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.user-message strong {
+    color: #f0f0f0;
+}
+
+.agent-message {
+    background-color: #e9e9eb;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.message-input {
+    display: flex;
+    border-top: 1px solid #eee;
+    padding: 10px;
+}
+
+.message-input input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.message-input button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.message-input button:hover {
+    background-color: #218838;
+}

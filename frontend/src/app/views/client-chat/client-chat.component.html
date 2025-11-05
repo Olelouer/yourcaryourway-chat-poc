@@ -1,0 +1,31 @@
+<div class="chat-container">
+
+    <div class="message-list">
+
+        @for (msg of messages; track msg.id) {
+
+        @if (msg.senderType === 'user') {
+        <div class="message user-message">
+            <strong>{{ msg.senderName }} (Moi):</strong>
+            {{ msg.message }}
+        </div>
+        } @else {
+        <div class="message agent-message">
+            <strong>{{ msg.senderName }}:</strong>
+            {{ msg.message }}
+        </div>
+        }
+
+        } @empty {
+        <p class="chat-placeholder">Aucun message. Dites bonjour !</p>
+        }
+
+    </div>
+
+    <div class="message-input">
+        <input type="text" [(ngModel)]="newMessageText" (keyup.enter)="sendMessage()"
+            placeholder="Écrivez votre message...">
+        <button (click)="sendMessage()">Envoyer</button>
+    </div>
+
+</div>

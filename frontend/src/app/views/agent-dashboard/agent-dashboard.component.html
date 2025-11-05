@@ -1,0 +1,56 @@
+<div class="dashboard-container">
+
+    <div class="user-list-panel">
+        <h3>Conversations</h3>
+        <ul>
+            @for (user of users; track user.id) {
+            <li (click)="selectUser(user)" [class.active]="user.id === selectedUser?.id">
+                {{ user.firstName }} {{ user.lastName }}
+            </li>
+            }
+            @empty {
+            <li>Chargement...</li>
+            }
+        </ul>
+    </div>
+
+    <div class="chat-panel">
+
+        @if (selectedUser) {
+
+        <div class="chat-header">
+            <h4>Discussion avec {{ selectedUser.firstName }} {{ selectedUser.lastName }}</h4>
+        </div>
+
+        <div class="message-list">
+            @for (msg of messages; track msg.id) {
+            @if (msg.senderType === 'user') {
+            <div class="message user-message">
+                <strong>{{ msg.senderName }}:</strong>
+                {{ msg.message }}
+            </div>
+            } @else {
+            <div class="message agent-message">
+                <strong>{{ msg.senderName }} (Moi):</strong>
+                {{ msg.message }}
+            </div>
+            }
+            } @empty {
+            <p class="chat-placeholder">Aucun message. Dites bonjour à {{ selectedUser.firstName }} !</p>
+            }
+        </div>
+
+        <div class="message-input">
+            <input type="text" [(ngModel)]="newMessageText" (keyup.enter)="sendMessage()"
+                placeholder="Répondre à {{ selectedUser.firstName }}...">
+            <button (click)="sendMessage()">Envoyer</button>
+        </div>
+
+        } @else {
+        <div class="chat-placeholder">
+            <p>Sélectionnez un utilisateur pour voir la conversation.</p>
+        </div>
+        }
+
+    </div>
+</div>

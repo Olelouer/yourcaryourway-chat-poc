@@ -1,0 +1,24 @@
+<div class="login-container">
+    <h2>Qui êtes-vous ?</h2>
+    <div class="login-panel">
+        <h3>Se connecter en tant qu'Utilisateur</h3>
+        @for (user of users(); track user.id) {
+        <button (click)="loginAsUser(user.id)">
+            {{ user.firstName }} {{ user.lastName }}
+        </button>
+        } @empty {
+        <p>Chargement des utilisateurs...</p>
+        }
+    </div>
+
+    <div class="login-panel">
+        <h3>Se connecter en tant qu'Agent</h3>
+        @for (agent of agents(); track agent.id) {
+        <button (click)="loginAsAgent(agent.id)">
+            {{ agent.firstName }} {{ agent.lastName }}
+        </button>
+        } @empty {
+        <p>Chargement des agents...</p>
+        }
+    </div>
+</div>
