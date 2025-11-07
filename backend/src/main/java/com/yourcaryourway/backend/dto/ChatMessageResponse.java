@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ChatMessageResponse {
     private Long id;
     private String message;
+    private Long conversationId;
     private String senderType;
     private String senderName;
     private Long senderId;

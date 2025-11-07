@@ -1,5 +1,6 @@
 package com.yourcaryourway.backend.controller;
 
+import com.yourcaryourway.backend.dto.ChatConversationResponseDTO;
 import com.yourcaryourway.backend.dto.ChatMessageResponse;
 import com.yourcaryourway.backend.dto.SendMessageRequest;
 import com.yourcaryourway.backend.model.Agent;
@@ -31,11 +32,11 @@ public class ChatController {
     /**
      * Récupérer les nouveaux messages (polling)
      */
-    @GetMapping("/messages/new/{userId}")
+    @GetMapping("/messages/new/conversation/{conversationId}")
     public ResponseEntity<List<ChatMessageResponse>> getNewMessages(
-            @PathVariable Long userId,
+            @PathVariable Long conversationId,
             @RequestParam(defaultValue = "0") Long lastMessageId) {
-        List<ChatMessageResponse> messages = chatService.getNewMessages(userId, lastMessageId);
+        List<ChatMessageResponse> messages = chatService.getNewMessages(conversationId, lastMessageId);
         return ResponseEntity.ok(messages);
     }
 
@@ -62,5 +63,11 @@ public class ChatController {
     @GetMapping("/agents")
     public ResponseEntity<List<Agent>> getAllAgents() {
         return ResponseEntity.ok(chatService.getAllAgents());
+    }
+
+    @GetMapping("/agent/conversations/{agentId}")
+    public ResponseEntity<List<ChatConversationResponseDTO>> getAgentDashboard(@PathVariable Long agentId) {
+        List<ChatConversationResponseDTO> conversations = chatService.getConversationsForAgent(agentId);
+        return ResponseEntity.ok(conversations);
     }
 }

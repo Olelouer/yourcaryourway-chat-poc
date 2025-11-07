@@ -17,13 +17,9 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "agent_id")
-    private Agent agent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conversation_id", nullable = false)
+    private ChatConversation conversation;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
@@ -40,14 +36,18 @@ public class ChatMessage {
     }
 
     public String getSenderName() {
-        if ("user".equals(senderType) && user != null) {
-            return user.getFirstName() + " " + user.getLastName();
+        if (conversation == null) {
+            return "Unknown";
         }
-        if ("agent".equals(senderType) && agent != null) {
-            return agent.getFirstName() + " " + agent.getLastName();
+
+        if ("user".equals(senderType) && conversation.getUser() != null) {
+            return conversation.getUser().getFirstName() + " " + conversation.getUser().getLastName();
         }
-        if (user != null) return user.getFirstName() + " " + user.getLastName();
-        if (agent != null) return agent.getFirstName() + " " + agent.getLastName();
+        if ("agent".equals(senderType) && conversation.getAgent() != null) {
+            return conversation.getAgent().getFirstName() + " " + conversation.getAgent().getLastName();
+        }
+
+        if (conversation.getUser() != null) return conversation.getUser().getFirstName();
         return "Unknown";
     }
 }

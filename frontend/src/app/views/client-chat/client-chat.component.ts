@@ -5,7 +5,6 @@ import { ChatService } from '../../services/chat.service';
 import { ChatMessageResponse } from '../../interfaces/models.dto';
 import { SendMessageRequest } from '../../interfaces/models.dto';
 import { FormsModule } from '@angular/forms';
-import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-client-chat',
@@ -19,6 +18,7 @@ export class ClientChatComponent implements OnInit, OnDestroy {
   newMessageText: string = '';
   currentUserId: number = 0;
 
+  private currentConversationId: number = 0;
   private lastMessageId: number = 0;
   private pollingInterval: any;
 
@@ -32,7 +32,6 @@ export class ClientChatComponent implements OnInit, OnDestroy {
         this.currentUserId = +id;
         this.cleanup();
         this.loadHistory();
-        this.startPolling();
       }
     });
   }
@@ -47,18 +46,26 @@ export class ClientChatComponent implements OnInit, OnDestroy {
     }
     this.messages = [];
     this.lastMessageId = 0;
+    this.currentConversationId = 0;
   }
 
   loadHistory(): void {
     this.chatService.getHistory(this.currentUserId).subscribe(history => {
       this.messages = history;
       this.updateLastMessageId();
+
+      if (history.length > 0) {
+        this.currentConversationId = history[0].conversationId;
+        this.startPolling();
+      }
     });
   }
 
   startPolling(): void {
+    if (this.currentConversationId === 0) return;
+
     this.pollingInterval = setInterval(() => {
-      this.chatService.getNewMessages(this.currentUserId, this.lastMessageId).subscribe(newMessages => {
+      this.chatService.getNewMessages(this.currentConversationId, this.lastMessageId).subscribe(newMessages => {
         if (newMessages.length > 0) {
           this.messages = [...this.messages, ...newMessages];
           this.updateLastMessageId();
@@ -77,7 +84,12 @@ export class ClientChatComponent implements OnInit, OnDestroy {
       senderType: 'user'
     };
 
-    this.chatService.sendMessage(request).subscribe();
+    this.chatService.sendMessage(request).subscribe(sentMessage => {
+      if (this.currentConversationId === 0) {
+        this.currentConversationId = sentMessage.conversationId;
+        this.startPolling();
+      }
+    });
     this.newMessageText = '';
   }
 

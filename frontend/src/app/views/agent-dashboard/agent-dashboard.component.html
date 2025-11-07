@@ -3,23 +3,29 @@
     <div class="user-list-panel">
         <h3>Conversations</h3>
         <ul>
-            @for (user of users; track user.id) {
-            <li (click)="selectUser(user)" [class.active]="user.id === selectedUser?.id">
-                {{ user.firstName }} {{ user.lastName }}
+            @for (conv of conversations; track conv.conversationId) {
+            <li (click)="selectConversation(conv)"
+                [class.active]="conv.conversationId === selectedConversation?.conversationId">
+
+                <strong>{{ conv.userFirstName }} {{ conv.userLastName }}</strong>
+                <br>
+                <small>Statut: {{ conv.status }}</small>
+                <br>
+                <small>{{ conv.lastMessageTime | date:'shortTime' }}</small>
             </li>
             }
             @empty {
-            <li>Chargement...</li>
+            <li>Aucune conversation assignée.</li>
             }
         </ul>
     </div>
 
     <div class="chat-panel">
 
-        @if (selectedUser) {
+        @if (selectedConversation) {
 
         <div class="chat-header">
-            <h4>Discussion avec {{ selectedUser.firstName }} {{ selectedUser.lastName }}</h4>
+            <h4>Discussion avec {{ selectedConversation.userFirstName }}</h4>
         </div>
 
         <div class="message-list">
@@ -36,19 +42,19 @@
             </div>
             }
             } @empty {
-            <p class="chat-placeholder">Aucun message. Dites bonjour à {{ selectedUser.firstName }} !</p>
+            <p class="chat-placeholder">Aucun message.</p>
             }
         </div>
 
         <div class="message-input">
             <input type="text" [(ngModel)]="newMessageText" (keyup.enter)="sendMessage()"
-                placeholder="Répondre à {{ selectedUser.firstName }}...">
+                placeholder="Répondre à {{ selectedConversation.userFirstName }}...">
             <button (click)="sendMessage()">Envoyer</button>
         </div>
 
         } @else {
         <div class="chat-placeholder">
-            <p>Sélectionnez un utilisateur pour voir la conversation.</p>
+            <p>Sélectionnez une conversation pour commencer.</p>
         </div>
         }
 

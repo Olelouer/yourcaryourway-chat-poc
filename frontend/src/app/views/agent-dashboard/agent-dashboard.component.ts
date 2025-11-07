@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
-import { User } from '../../interfaces/models.dto';
+import { ChatConversationResponseDTO } from '../../interfaces/models.dto';
 import { ChatMessageResponse } from '../../interfaces/models.dto';
 import { SendMessageRequest } from '../../interfaces/models.dto';
 
@@ -15,12 +15,14 @@ import { SendMessageRequest } from '../../interfaces/models.dto';
 })
 export class AgentDashboardComponent implements OnInit, OnDestroy {
 
-  users: User[] = [];
-  selectedUser: User | null = null;
+  conversations: ChatConversationResponseDTO[] = [];
+  selectedConversation: ChatConversationResponseDTO | null = null;
+
   messages: ChatMessageResponse[] = [];
   newMessageText: string = '';
   currentAgentId: number = 0;
 
+  private currentConversationId: number = 0;
   private lastMessageId: number = 0;
   private pollingInterval: any;
 
@@ -32,11 +34,14 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
       const id = params.get('id');
       if (id) {
         this.currentAgentId = +id;
+        this.loadAgentDashboard();
       }
     });
+  }
 
-    this.chatService.getAllUsers().subscribe(users => {
-      this.users = users;
+  loadAgentDashboard(): void {
+    this.chatService.getAgentConversations(this.currentAgentId).subscribe(convs => {
+      this.conversations = convs;
     });
   }
 
@@ -46,25 +51,28 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectUser(user: User): void {
-    this.selectedUser = user;
+  selectConversation(conv: ChatConversationResponseDTO): void {
+    this.selectedConversation = conv;
     this.messages = [];
     this.lastMessageId = 0;
+    this.currentConversationId = conv.conversationId;
 
     if (this.pollingInterval) {
       clearInterval(this.pollingInterval);
     }
 
-    this.chatService.getHistory(user.id).subscribe(history => {
+    this.chatService.getHistory(conv.userId).subscribe(history => {
       this.messages = history;
       this.updateLastMessageId();
-      this.startPolling(user.id);
+      this.startPolling(conv.conversationId);
     });
   }
 
-  startPolling(userId: number): void {
+  startPolling(conversationId: number): void {
+    if (conversationId === 0) return;
+
     this.pollingInterval = setInterval(() => {
-      this.chatService.getNewMessages(userId, this.lastMessageId).subscribe(newMessages => {
+      this.chatService.getNewMessages(conversationId, this.lastMessageId).subscribe(newMessages => {
         if (newMessages.length > 0) {
           this.messages = [...this.messages, ...newMessages];
           this.updateLastMessageId();
@@ -74,10 +82,10 @@ export class AgentDashboardComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(): void {
-    if (!this.newMessageText.trim() || !this.selectedUser || this.currentAgentId === 0) return;
+    if (!this.newMessageText.trim() || !this.selectedConversation || this.currentAgentId === 0) return;
 
     const request: SendMessageRequest = {
-      userId: this.selectedUser.id,
+      userId: this.selectedConversation.userId,
       agentId: this.currentAgentId,
       message: this.newMessageText,
       senderType: 'agent'

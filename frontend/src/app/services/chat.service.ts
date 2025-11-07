@@ -6,6 +6,7 @@ import { ChatMessageResponse } from '../interfaces/models.dto';
 import { SendMessageRequest } from '../interfaces/models.dto';
 import { User } from '../interfaces/models.dto';
 import { Agent } from '../interfaces/models.dto';
+import { ChatConversationResponseDTO } from '../interfaces/models.dto';
 
 @Injectable({
     providedIn: 'root'
@@ -26,12 +27,16 @@ export class ChatService {
         return this.http.get<ChatMessageResponse[]>(`${this.apiUrl}/history/${userId}`);
     }
 
-    getNewMessages(userId: number, lastMessageId: number): Observable<ChatMessageResponse[]> {
-        return this.http.get<ChatMessageResponse[]>(`${this.apiUrl}/messages/new/${userId}?lastMessageId=${lastMessageId}`);
-    }
-
-    // Envoyer un message
     sendMessage(request: SendMessageRequest): Observable<ChatMessageResponse> {
         return this.http.post<ChatMessageResponse>(`${this.apiUrl}/messages`, request);
+    }
+
+    getNewMessages(conversationId: number, lastMessageId: number): Observable<ChatMessageResponse[]> {
+        const url = `${this.apiUrl}/messages/new/conversation/${conversationId}?lastMessageId=${lastMessageId}`;
+        return this.http.get<ChatMessageResponse[]>(url);
+    }
+
+    getAgentConversations(agentId: number): Observable<ChatConversationResponseDTO[]> {
+        return this.http.get<ChatConversationResponseDTO[]>(`${this.apiUrl}/agent/conversations/${agentId}`);
     }
 }

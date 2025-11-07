@@ -11,20 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> {
-    /**
-     * Récupérer tous les messages d'une conversation (user + agent)
-     */
-    @Query("SELECT m FROM ChatMessage m WHERE m.user.id = :userId ORDER BY m.sentAt ASC")
-    List<ChatMessage> findByUserId(@Param("userId") Long userId);
+    List<ChatMessage> findByConversationIdOrderBySentAtAsc(Long conversationId);
 
-    /**
-     * Récupérer les nouveaux messages depuis un certain ID
-     */
-    @Query("SELECT m FROM ChatMessage m WHERE m.user.id = :userId AND m.id > :lastMessageId ORDER BY m.sentAt ASC")
-    List<ChatMessage> findNewMessages(@Param("userId") Long userId, @Param("lastMessageId") Long lastMessageId);
-
-    /**
-     * Récupère le tout dernier message envoyé dans une conversation
-     */
-    Optional<ChatMessage> findFirstByUserIdOrderByIdDesc(Long userId);
+    @Query("SELECT m FROM ChatMessage m WHERE m.conversation.id = :conversationId AND m.id > :lastMessageId ORDER BY m.sentAt ASC")
+    List<ChatMessage> findNewMessages(@Param("conversationId") Long conversationId, @Param("lastMessageId") Long lastMessageId);
 }

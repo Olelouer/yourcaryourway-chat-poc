@@ -26,7 +26,6 @@ export class LoginSimulatorComponent implements OnInit {
     this.router.navigate(['/client', userId]);
   }
 
-  // Quand on clique sur un agent
   loginAsAgent(agentId: number): void {
     this.router.navigate(['/agent', agentId]);
   }

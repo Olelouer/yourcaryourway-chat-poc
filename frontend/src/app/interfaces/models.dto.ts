@@ -14,6 +14,7 @@ export interface Agent {
 
 export interface ChatMessageResponse {
     id: number;
+    conversationId: number;
     message: string;
     senderType: 'user' | 'agent';
     senderName: string;
@@ -26,4 +27,13 @@ export interface SendMessageRequest {
     agentId: number | null;
     message: string;
     senderType: 'user' | 'agent';
+}
+
+export interface ChatConversationResponseDTO {
+    conversationId: number;
+    status: string;
+    lastMessageTime: string;
+    userId: number;
+    userFirstName: string;
+    userLastName: string;
 }
