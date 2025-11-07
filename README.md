@@ -1,8 +1,8 @@
-# Your Car Your Way - POC Chat Agent/Utilisateurs
+# Your Car Your Way - POC Chat Agent/Users
 
-Ce POC est en développement pour tester la fonctionnalité de chat agent/utilisateurs
+This POC is developed to test the agent/user chat functionality
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
 - **Java** 21+
 - **Node.js** 18+
@@ -10,95 +10,81 @@ Ce POC est en développement pour tester la fonctionnalité de chat agent/utilis
 - **Maven** 3.9+
 - **Angular CLI** 19
 
-## 🗄️ Installation de la base de données
+## 🗄️ Database Setup
 
-### Base de données POC
+### POC Database
 
-le schéma du POC est disponible dans :
-```bash
-database/poc/schema.sql
-```
+The POC schema is available in:
+`database/poc/schema.sql`
 
-Des données de test sont disponibles dans :
-```bash
-database/poc/seed-data.sql
-```
+Test data is available in:
+`database/poc/seed-data.sql`
 
-### Base de données complète
+### Complete Database
 
-Pour référence, le schéma complet est disponible dans :
-```bash
-database/schema.sql
-```
+For reference, the complete schema is available in:
+`database/schema.sql`
 
-## 🚀 Installation Backend (Spring Boot)
+## 🚀 Backend Setup (Spring Boot)
 
-1. Se positionner dans le dossier backend :
-```bash
-cd backend
-```
+1.  Go to the backend directory:
+    ```bash
+    cd backend
+    ```
+2.  Configure the database connection:
+    ```bash
+    # Edit src/main/resources/application.properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/yourcaryourway_chat_poc
+    spring.datasource.username=your_user
+    spring.datasource.password=your_password
+    ```
+3.  Install dependencies and build:
+    ```bash
+    mvn clean install
+    ```
+4.  Run the application:
+    ```bash
+    mvn spring-boot:run
+    ```
+    The backend will be accessible at `http://localhost:8080`
 
-2. Configurer la connexion à la base de données :
-```bash
-# Éditer src/main/resources/application.properties
-spring.datasource.url=jdbc:mysql://localhost:3306/yourcaryourway_poc
-spring.datasource.username=votre_user
-spring.datasource.password=votre_password
-```
+## 💻 Frontend Setup (Angular)
 
-3. Installer les dépendances et builder :
-```bash
-mvn clean install
-```
+1.  Go to the frontend directory:
+    ```bash
+    cd frontend
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Configure the backend URL (if necessary):
+    ```bash
+    # Edit src/app/services/chat.service.ts
+    private apiUrl = 'http://localhost:8080/api/chat';
+    ```
+4.  Run the application:
+    ```bash
+    npm start
+    ```
+    The frontend will be accessible at `http://localhost:4200`
 
-4. Lancer l'application :
-```bash
-mvn spring-boot:run
-```
-
-Le backend sera accessible sur `http://localhost:8080`
-
-## 💻 Installation Frontend (Angular)
-
-1. Se positionner dans le dossier frontend :
-```bash
-cd frontend
-```
-
-2. Installer les dépendances :
-```bash
-npm install
-```
-
-3. Configurer l'URL du backend (si nécessaire) :
-```bash
-# Éditer src/app/services/chat.service.ts
-private apiUrl = 'http://localhost:8080/api/chat';
-```
-
-4. Lancer l'application :
-```bash
-npm start
-```
-
-Le frontend sera accessible sur `http://localhost:4200`
-
-## 📁 Structure du projet
+## 📁 Project Structure
 
 ```
 .
-├── backend/                 # Application Spring Boot
+├── backend/                # Spring Boot Application
 │   ├── src/
 │   ├── pom.xml
 │   └── ...
-├── frontend/               # Application Angular 19
+├── frontend/               # Angular 19 Application
 │   ├── src/
 │   ├── angular.json
 │   ├── package.json
 │   └── ...
-└── database/              # Scripts SQL
-    ├── schema.sql         # Schéma production complet
+└── database/              # SQL Scripts
+    ├── schema.sql         # Complete production schema
     └── poc/
-        ├── schema.sql     # Schéma POC
-        └── seed-data.sql  # Données de test
+        ├── schema.sql     # POC Schema
+        └── seed-data.sql  # Test data
 ```
