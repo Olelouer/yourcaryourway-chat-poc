@@ -4,11 +4,11 @@ This POC is developed to test the agent/user chat functionality
 
 ## 📋 Prerequisites
 
-- **Java** 21+
-- **Node.js** 18+
+- **Java** 25+
+- **Node.js** 24+
 - **MySQL** 8.0+
 - **Maven** 3.9+
-- **Angular CLI** 19
+- **Angular CLI** 20
 
 ## 🗄️ Database Setup
 

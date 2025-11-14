@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { User } from '../../interfaces/models.dto';
@@ -7,7 +7,7 @@ import { Agent } from '../../interfaces/models.dto';
 
 @Component({
   selector: 'app-login-simulator',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './login-simulator.component.html',
 })
 export class LoginSimulatorComponent implements OnInit {
