@@ -119,16 +119,13 @@ CREATE TABLE payments (
 CREATE TABLE invoices (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     payment_id BIGINT NOT NULL,
-    reservation_id BIGINT NOT NULL,
     invoice_number VARCHAR(50) NOT NULL UNIQUE,
     amount DECIMAL(10, 2) NOT NULL,
     currency VARCHAR(3) NOT NULL,
     file_path VARCHAR(500),
     issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (payment_id) REFERENCES payments(id),
-    FOREIGN KEY (reservation_id) REFERENCES reservations(id),
     INDEX idx_payment (payment_id),
-    INDEX idx_reservation (reservation_id),
     INDEX idx_invoice_number (invoice_number)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -196,5 +193,6 @@ CREATE TABLE notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     INDEX idx_user (user_id),
-    INDEX idx_type (type)
+    INDEX idx_type (type),
+    INDEX idx_notification_type (notification_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

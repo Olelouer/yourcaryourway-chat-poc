@@ -7,6 +7,7 @@ This POC is developed to test the agent/user chat functionality
 - **Java** 25+
 - **Node.js** 24+
 - **MySQL** 8.0+
+- **Spring Boot** 3.5+
 - **Maven** 3.9+
 - **Angular CLI** 20
 
