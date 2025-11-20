@@ -12,6 +12,7 @@ CREATE TABLE users (
     birth_date DATE NOT NULL,
     phone VARCHAR(20),
     address TEXT,
+    user_role VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_email (email)
